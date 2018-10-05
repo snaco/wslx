@@ -65,8 +65,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>WSLX.Launcher</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ui3_tli_icon.ico</ApplicationIcon>
