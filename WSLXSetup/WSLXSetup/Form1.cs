@@ -42,6 +42,9 @@ namespace WSLXSetup
 				case "Ubuntu 18.04":
 					distro = "ubuntu1804.exe";
 					break;
+				case "Debian GNU/Linux":
+					distro = "debian.exe";
+					break;
 				default:
 					break;
 			}

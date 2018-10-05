@@ -83,7 +83,8 @@
 			this.wsl_distro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.wsl_distro.FormattingEnabled = true;
 			this.wsl_distro.Items.AddRange(new object[] {
-            "Ubuntu 18.04"});
+            "Ubuntu 18.04",
+            "Debian GNU/Linux"});
 			this.wsl_distro.Location = new System.Drawing.Point(139, 24);
 			this.wsl_distro.Name = "wsl_distro";
 			this.wsl_distro.Size = new System.Drawing.Size(121, 24);
