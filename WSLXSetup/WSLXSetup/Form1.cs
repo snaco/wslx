@@ -59,7 +59,10 @@ namespace WSLXSetup
 						distro = "openSUSE-42.exe";
 						break;
 					case "Kali":
-						distro = "kali";
+						distro = "kali.exe";
+						break;
+					case "WLinux":
+						distro "WLinux.exe";
 						break;
 					default:
 						break;
