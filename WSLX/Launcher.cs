@@ -1,72 +1,97 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using System.IO;
 using System.Diagnostics;
 using System.Collections;
-using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace WSLX
 {
-	class Launcer
+	class Launcher
 	{
+		static void Main(string[] args)
+		{
+			Launcher launcher = new Launcher();			
+			launcher.GetConfig();
+			PowerShell ps = PowerShell.Create();
+			string script;
+			if ((script = launcher.GenerateScript()) != null)
+			{
+				ps.AddScript(script);
+				ps.Invoke();
+			}
+			else
+			{
+				MessageBox.Show("Could not generate config file!\n" +
+					"Check config file for errors or run the WSLX Setup again to reconfigure.", 
+					"WSLX",
+					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+		}
+
 		string xserver_client = "";
 		string distro = "";
 		string window_manager = "";
 
-		static void Main(string[] args)
+		//Builds the script from the gathered config information
+		public string GenerateScript()
 		{
-			Launcer launcher = new Launcer();
-
-			
-			ArrayList file_lines = launcher.GetConfig();
-			launcher.AssignConfigs(file_lines, ref launcher.xserver_client, ref launcher.distro, ref launcher.window_manager);
-			Console.WriteLine("{0} {1} {2}", launcher.xserver_client, launcher.distro, launcher.window_manager);
-			Console.ReadLine();
-			/*
-			PowerShell ps = PowerShell.Create();
-			ps.AddScript("Start-Process "+xserver_client+"; " +
-				"Start-Process ubuntu1804 -WindowStyle Hidden -ArgumentList " +
-				"\'run \"export DISPLAY=127.0.0.1:0.0 && i3\"\'");
-			ps.Invoke();
-			*/
-		}
-		//vcxsrv -nodecoration
-		public void AssignConfigs(ArrayList config_lines, ref string xserver_client, ref string distro, ref string window_manager)
-		{
-			foreach (string s in config_lines)
+			switch (xserver_client)
 			{
-				int index = s.IndexOf('=') + 1;
-				if (s.Contains("xserver_client="))
-				{
-					xserver_client = s.Substring(index);
-				}
-				else if (s.Contains("distro="))
-				{
-					distro = s.Substring(index);
-				}
-				else if (s.Contains("window_manager="))
-				{
-					window_manager = s.Substring(index);
-				}
+				case "X410":
+					return "Start-Process " 
+							+ xserver_client 
+							+ "; " 
+							+ "Start-Process " 
+							+ distro 
+							+ " -WindowStyle Hidden -ArgumentList " 
+							+ "\'run \"export DISPLAY=127.0.0.1:0.0 && " 
+							+ window_manager 
+							+ "\"\'";
+				case "\"C:\\Program Files\\VcXsrv\\vcxsrv.exe\"":
+					return "Start-Process "
+							+ xserver_client 
+							+ " -ArgumentList \"-nodecoration -winkill\"; "
+							+ "Start-Process "
+							+ distro
+							+ " -WindowStyle Hidden -ArgumentList "
+							+ "\'run \"export DISPLAY=127.0.0.1:0.0 && "
+							+ window_manager
+							+ "\"\'";
+				default:
+					return null;
 			}
 		}
-		public ArrayList GetConfig()
+		//Reads the config file stored in the same location as the .exe and stores the values
+		public void GetConfig()
 		{
 			string config_file = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\config";
-			StreamReader file = new StreamReader(config_file);
-			ArrayList lines = new ArrayList();
-			Console.WriteLine(config_file);
-			string line;
-			while ((line = file.ReadLine()) != null)
+			try
 			{
-				line = Regex.Replace(line, @"\s", "");
-				lines.Add(line);
+				StreamReader file = new StreamReader(config_file);
+				ArrayList lines = new ArrayList();
+				string line;
+				while ((line = file.ReadLine()) != null)
+				{
+					//line = Regex.Replace(line, @"\s", "");
+					int index = line.IndexOf('=') + 1;
+					if (line.Contains("xserver_client="))
+					{
+						xserver_client = line.Substring(index);
+					}
+					else if (line.Contains("distro="))
+					{
+						distro = line.Substring(index);
+					}
+					else if (line.Contains("window_manager="))
+					{
+						window_manager = line.Substring(index);
+					}
+				}
 			}
-			return lines;
+			catch (FileNotFoundException)
+			{
+				MessageBox.Show("No config file found! Did you run the WSLXSetup?", "WSLX", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 	}
 	
