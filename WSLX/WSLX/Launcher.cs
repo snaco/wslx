@@ -72,6 +72,7 @@ namespace WSLX
 		{
 			string new_path = "/mnt/c/";
 			path = path.Replace('\\', '/');
+			path = path.Replace(" ", "\\ ");
 			path = path.Replace('"', '\0');
 			//C:\
 			new_path += path.Substring(4);
