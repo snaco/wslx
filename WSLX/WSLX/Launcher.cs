@@ -67,17 +67,17 @@ namespace WSLX
 					return null;
 			}
 		}
-		//Reads the config file stored in the same location as the .exe and stores the values
+		//translate the Windows directory path to one the linux subsystem can understand
 		public string TranslatePathToLinux(string path)
 		{
 			string new_path = "/mnt/c/";
 			path = path.Replace('\\', '/');
 			path = path.Replace(" ", "\\ ");
 			path = path.Replace('"', '\0');
-			//C:\
 			new_path += path.Substring(4);
 			return new_path;
 		}
+		//Reads the config file stored in the same location as the .exe and stores the values
 		public void GetConfig()
 		{
 			string config_file = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\config";
