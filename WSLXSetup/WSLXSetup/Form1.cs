@@ -62,7 +62,7 @@ namespace WSLXSetup
 						distro = "kali.exe";
 						break;
 					case "WLinux":
-						distro "WLinux.exe";
+						distro = "WLinux.exe";
 						break;
 					default:
 						break;
