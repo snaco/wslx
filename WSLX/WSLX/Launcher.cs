@@ -31,6 +31,7 @@ namespace WSLX
 		string xserver_client = "";
 		string distro = "";
 		string window_manager = "";
+		string logfile_path = "";
 
 		//Builds the script from the gathered config information
 		public string GenerateScript()
@@ -38,15 +39,18 @@ namespace WSLX
 			switch (xserver_client)
 			{
 				case "X410":
-					return "Start-Process " 
-							+ xserver_client 
-							+ "; " 
-							+ "Start-Process " 
-							+ distro 
-							+ " -WindowStyle Hidden -ArgumentList " 
-							+ "\'run \"export DISPLAY=127.0.0.1:0.0 && " 
-							+ window_manager 
+					return "Start-Process "
+							+ xserver_client
+							+ "; "
+							+ "Start-Process "
+							+ distro
+							+ " -WindowStyle Hidden -ArgumentList "
+							+ "\'run \"export DISPLAY=127.0.0.1:0.0 && "
+							+ window_manager
+							+ " &> "
+							+ TranslatePathToLinux(logfile_path)
 							+ "\"\'";
+					//Start-Process ubt -WS H -AL 'run "export D=123 && i3 &> pth"'
 				case "\"C:\\Program Files\\VcXsrv\\vcxsrv.exe\"":
 					return "Start-Process "
 							+ xserver_client 
@@ -56,12 +60,23 @@ namespace WSLX
 							+ " -WindowStyle Hidden -ArgumentList "
 							+ "\'run \"export DISPLAY=127.0.0.1:0.0 && "
 							+ window_manager
+							+ " &> "
+							+ TranslatePathToLinux(logfile_path)
 							+ "\"\'";
 				default:
 					return null;
 			}
 		}
 		//Reads the config file stored in the same location as the .exe and stores the values
+		public string TranslatePathToLinux(string path)
+		{
+			string new_path = "/mnt/c/";
+			path = path.Replace('\\', '/');
+			path = path.Replace('"', '\0');
+			//C:\
+			new_path += path.Substring(4);
+			return new_path;
+		}
 		public void GetConfig()
 		{
 			string config_file = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\config";
@@ -85,6 +100,10 @@ namespace WSLX
 					else if (line.Contains("window_manager="))
 					{
 						window_manager = line.Substring(index);
+					}
+					else if (line.Contains("logfile_path="))
+					{
+						logfile_path = line.Substring(index);
 					}
 				}
 			}
