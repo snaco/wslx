@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace WSLXSetup
@@ -16,7 +10,8 @@ namespace WSLXSetup
 		{
 			InitializeComponent();
 			get_dep_tip.SetToolTip(get_dep_btn, "Will install the windowmanager on the subsystem.\nOnly do this if you haven't installed the windowmanager yourself.");
-			logfile_tip.SetToolTip(set_folder_btn, "Choose where to keep logfile of wsl output");
+			logfile_tip.SetToolTip(set_folder_btn, "Choose where to keep logfile of wsl output.  Default is the current directory.");
+			log_path_tbox.AppendText(System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName));
 		}
 
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -39,6 +34,7 @@ namespace WSLXSetup
 				string distro = wsl_distro.Items[wsl_distro.SelectedIndex].ToString();
 				string xserver = xserver_client.Items[xserver_client.SelectedIndex].ToString();
 				string win_mgr = window_manager.Items[window_manager.SelectedIndex].ToString();
+				
 				string logfile_path = "logfile_path=\""+log_path_tbox.Text+"\\logfile.txt\"";
 				Console.WriteLine(xserver);
 				switch (xserver)
@@ -99,6 +95,7 @@ namespace WSLXSetup
 
 		private void set_folder_btn_Click(object sender, EventArgs e)
 		{
+			
 			DialogResult result = set_logfie_output.ShowDialog();
 			if (result == DialogResult.OK)
 			{

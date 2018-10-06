@@ -193,7 +193,6 @@
 			// 
 			// set_logfie_output
 			// 
-			this.set_logfie_output.RootFolder = System.Environment.SpecialFolder.LocalizedResources;
 			this.set_logfie_output.HelpRequest += new System.EventHandler(this.set_logfie_output_HelpRequest);
 			// 
 			// Form1
