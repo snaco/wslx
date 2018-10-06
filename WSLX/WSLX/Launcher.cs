@@ -50,7 +50,6 @@ namespace WSLX
 							+ " &> "
 							+ TranslatePathToLinux(logfile_path)
 							+ "\"\'";
-					//Start-Process ubt -WS H -AL 'run "export D=123 && i3 &> pth"'
 				case "\"C:\\Program Files\\VcXsrv\\vcxsrv.exe\"":
 					return "Start-Process "
 							+ xserver_client 
