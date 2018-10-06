@@ -59,7 +59,6 @@
 			this.xserver_client.Name = "xserver_client";
 			this.xserver_client.Size = new System.Drawing.Size(153, 24);
 			this.xserver_client.TabIndex = 0;
-			this.xserver_client.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
 			// 
 			// gen_cfg_btn
 			// 
@@ -72,7 +71,7 @@
 			this.gen_cfg_btn.TabIndex = 1;
 			this.gen_cfg_btn.Text = "Generate Config";
 			this.gen_cfg_btn.UseVisualStyleBackColor = false;
-			this.gen_cfg_btn.Click += new System.EventHandler(this.button1_Click);
+			this.gen_cfg_btn.Click += new System.EventHandler(this.generate_config);
 			// 
 			// xsrvc_label
 			// 
@@ -142,6 +141,9 @@
 			// 
 			// get_dep_tip
 			// 
+			this.get_dep_tip.AutoPopDelay = 500000;
+			this.get_dep_tip.InitialDelay = 500;
+			this.get_dep_tip.ReshowDelay = 100;
 			this.get_dep_tip.ShowAlways = true;
 			this.get_dep_tip.ToolTipTitle = "Install Window Manager";
 			// 
