@@ -3,14 +3,17 @@ A launcher application for running wsl with an xserver.
 
 Currently Supported and Tested Distros:
 * Ubuntu 18.04
+
 Currently "Supported" Distros but Not Fully Tested:
 * Debian GNU\Linux
 * OpenSUSE Leap 42
 * Kali
 * WLinux
+
 Currently Supported XServer Clients:
 * X410
 * VcXsrv (In default install location only)
+
 Currently Supported Window Managers:
 * i3
 
