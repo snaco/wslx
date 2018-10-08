@@ -38,4 +38,4 @@ First time use of WSLXSetup and WSLX with i3 already installed and configured:
 2. Click "Exit and Run WSLX"
 
 Any other time use of WSLX:
-0. Run WSLX.exe
+* Run WSLX.exe
