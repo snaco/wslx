@@ -139,7 +139,7 @@
 			this.get_dep_btn.Name = "get_dep_btn";
 			this.get_dep_btn.Size = new System.Drawing.Size(246, 51);
 			this.get_dep_btn.TabIndex = 7;
-			this.get_dep_btn.Text = "Install WM and Generate Config";
+			this.get_dep_btn.Text = "Install WM";
 			this.get_dep_btn.UseVisualStyleBackColor = false;
 			this.get_dep_btn.Click += new System.EventHandler(this.get_dep_btn_Click);
 			// 
