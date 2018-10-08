@@ -106,11 +106,13 @@
 			this.window_manager.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.window_manager.FormattingEnabled = true;
 			this.window_manager.Items.AddRange(new object[] {
-            "i3"});
+            "i3",
+            "xfce"});
 			this.window_manager.Location = new System.Drawing.Point(358, 31);
 			this.window_manager.Name = "window_manager";
 			this.window_manager.Size = new System.Drawing.Size(121, 24);
 			this.window_manager.TabIndex = 4;
+			this.window_manager.SelectedIndexChanged += new System.EventHandler(this.window_manager_SelectedIndexChanged);
 			// 
 			// distro_label
 			// 

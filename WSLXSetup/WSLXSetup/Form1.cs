@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Management.Automation;
+using System.Collections;
 using System.Collections.ObjectModel;
 
 namespace WSLXSetup
@@ -80,11 +81,55 @@ namespace WSLXSetup
 				PowerShell ps = PowerShell.Create();
 				string distro = GetLinuxDistro();
 				string win_mgr = GetWindowManager();
-				if (distro.Equals("ubuntu1604.exe") || distro.Equals("ubuntu1804.exe") || distro.Equals("debian.exe"))
+				if (distro.Equals("ubuntu1604.exe") || distro.Equals("ubuntu1804.exe") || distro.Equals("debian.exe") || distro.Equals("kali.exe"))
 				{
 					Process p = new Process();
 					p.StartInfo.FileName = "PowerShell.exe";
 					string term = GetTerminalEmulator();
+					switch (GetWindowManager())
+					{
+						case "i3":
+							switch (term)
+							{
+								case "urxvt":
+									p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
+										"'run sudo apt update " +
+										"&& sudo apt upgrade -y " +
+										"&& sudo apt-get install -y " + win_mgr + " " +
+										"&& sudo apt-get install -y feh " +
+										"&& cat Defaults/i3Config > ~/.config/i3/config " +
+										"&& mkdir ~/Pictures " +
+										"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg" +
+										"'\"";
+									break;
+								case "terminator":
+									p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
+										"'run sudo apt update " +
+										"&& sudo apt upgrade -y " +
+										"&& sudo apt-get install -y " + win_mgr + " " +
+										"&& sudo apt-get install -y feh " +
+										"&& cat Defaults/i3Config > ~/.config/i3/config " +
+										"&& mkdir ~/Pictures " +
+										"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
+										"&& sudo apt-get install -y terminator " +
+										"&& mkdir ~/.config/terminator " +
+										"&& cat Defaults/terminatorConfig > ~/.config/terminator/config" +
+										"'\"";
+									break;
+							}
+							break;
+						case "xfce4-session":
+							p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
+										"'run sudo apt update " +
+										"&& sudo apt upgrade -y " +
+										"&& sudo apt-get install -y xfce4 " +
+										"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
+										"&& xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set ~/Plane.jpg" +
+										"'\"";
+							break;
+						default:
+							break;
+					}
 					switch (term)
 					{
 						case "urxvt":
@@ -133,6 +178,8 @@ namespace WSLXSetup
 				{
 					case "i3":
 						return "i3";
+					case "xfce":
+						return "xfce4-session";
 					default:
 						return "";
 				}
@@ -191,21 +238,33 @@ namespace WSLXSetup
 		private void wsl_distro_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			term_list.Items.Clear();
+			window_manager.Items.Clear();
 			string distro = GetLinuxDistro();
 			switch (distro)
 			{
 				case "ubuntu1804.exe":
 					term_list.Items.Add("urxvt");
 					term_list.Items.Add("terminator");
+					window_manager.Items.Add("i3");
+					window_manager.Items.Add("xfce");
 					break;
 				case "ubuntu1604.exe":
 					term_list.Items.Add("urxvt");
 					term_list.Items.Add("terminator");
+					window_manager.Items.Add("i3");
+					window_manager.Items.Add("xfce");
 					break;
 				case "debian.exe":
 					//no terminator support due to a dbus issue.
 					term_list.Items.Add("urxvt");
+					window_manager.Items.Add("xfce");
 					break;
+				case "kali.exe":
+					term_list.Items.Add("urxvt");
+					term_list.Items.Add("terminator");
+					window_manager.Items.Add("xfce");
+					break;
+
 			}
 			term_list.SelectedIndex = 0;
 		}
@@ -218,6 +277,23 @@ namespace WSLXSetup
 			path = path.Replace('"', '\0');
 			new_path += path.Substring(4);
 			return new_path;
+		}
+
+		private void window_manager_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			
+			string win_mgr = GetWindowManager();
+			switch (win_mgr)
+			{
+				case "i3":
+					break;
+				case "xfce4-session":
+					term_list.Items.Clear();
+					term_list.Items.Add("default");
+					term_list.SelectedIndex = 0;
+					break;
+			}
+			term_list.SelectedIndex = 0;
 		}
 	}
 }
