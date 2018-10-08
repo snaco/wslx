@@ -45,6 +45,8 @@
 			this.set_folder_btn = new System.Windows.Forms.Button();
 			this.logfile_tip = new System.Windows.Forms.ToolTip(this.components);
 			this.set_logfie_output = new System.Windows.Forms.FolderBrowserDialog();
+			this.term_list = new System.Windows.Forms.ComboBox();
+			this.term_label = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// xserver_client
@@ -65,7 +67,7 @@
 			this.gen_cfg_btn.BackColor = System.Drawing.Color.Turquoise;
 			this.gen_cfg_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.gen_cfg_btn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.gen_cfg_btn.Location = new System.Drawing.Point(138, 112);
+			this.gen_cfg_btn.Location = new System.Drawing.Point(264, 112);
 			this.gen_cfg_btn.Name = "gen_cfg_btn";
 			this.gen_cfg_btn.Size = new System.Drawing.Size(153, 51);
 			this.gen_cfg_btn.TabIndex = 1;
@@ -87,6 +89,7 @@
 			this.wsl_distro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.wsl_distro.FormattingEnabled = true;
 			this.wsl_distro.Items.AddRange(new object[] {
+            "Ubuntu 16.04",
             "Ubuntu 18.04",
             "Debian GNU/Linux",
             "openSUSE Leap 42",
@@ -96,6 +99,7 @@
 			this.wsl_distro.Name = "wsl_distro";
 			this.wsl_distro.Size = new System.Drawing.Size(182, 24);
 			this.wsl_distro.TabIndex = 3;
+			this.wsl_distro.SelectedIndexChanged += new System.EventHandler(this.wsl_distro_SelectedIndexChanged);
 			// 
 			// window_manager
 			// 
@@ -133,9 +137,9 @@
 			this.get_dep_btn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.get_dep_btn.Location = new System.Drawing.Point(12, 112);
 			this.get_dep_btn.Name = "get_dep_btn";
-			this.get_dep_btn.Size = new System.Drawing.Size(121, 51);
+			this.get_dep_btn.Size = new System.Drawing.Size(246, 51);
 			this.get_dep_btn.TabIndex = 7;
-			this.get_dep_btn.Text = "Install WM";
+			this.get_dep_btn.Text = "Install WM and Generate Config";
 			this.get_dep_btn.UseVisualStyleBackColor = false;
 			this.get_dep_btn.Click += new System.EventHandler(this.get_dep_btn_Click);
 			// 
@@ -152,7 +156,7 @@
 			this.exec_btn.BackColor = System.Drawing.Color.Firebrick;
 			this.exec_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.exec_btn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.exec_btn.Location = new System.Drawing.Point(297, 112);
+			this.exec_btn.Location = new System.Drawing.Point(423, 112);
 			this.exec_btn.Name = "exec_btn";
 			this.exec_btn.Size = new System.Drawing.Size(182, 51);
 			this.exec_btn.TabIndex = 8;
@@ -164,7 +168,7 @@
 			// 
 			this.log_path_tbox.Location = new System.Drawing.Point(184, 74);
 			this.log_path_tbox.Name = "log_path_tbox";
-			this.log_path_tbox.Size = new System.Drawing.Size(295, 22);
+			this.log_path_tbox.Size = new System.Drawing.Size(421, 22);
 			this.log_path_tbox.TabIndex = 9;
 			// 
 			// label1
@@ -197,12 +201,32 @@
 			// 
 			this.set_logfie_output.HelpRequest += new System.EventHandler(this.set_logfie_output_HelpRequest);
 			// 
+			// term_list
+			// 
+			this.term_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.term_list.FormattingEnabled = true;
+			this.term_list.Location = new System.Drawing.Point(485, 31);
+			this.term_list.Name = "term_list";
+			this.term_list.Size = new System.Drawing.Size(121, 24);
+			this.term_list.TabIndex = 13;
+			// 
+			// term_label
+			// 
+			this.term_label.AutoSize = true;
+			this.term_label.Location = new System.Drawing.Point(482, 11);
+			this.term_label.Name = "term_label";
+			this.term_label.Size = new System.Drawing.Size(123, 17);
+			this.term_label.TabIndex = 14;
+			this.term_label.Text = "Terminal Emulator";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.WindowText;
-			this.ClientSize = new System.Drawing.Size(489, 177);
+			this.ClientSize = new System.Drawing.Size(619, 177);
+			this.Controls.Add(this.term_label);
+			this.Controls.Add(this.term_list);
 			this.Controls.Add(this.set_folder_btn);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.log_path_tbox);
@@ -244,6 +268,8 @@
 		private System.Windows.Forms.Button set_folder_btn;
 		private System.Windows.Forms.ToolTip logfile_tip;
 		private System.Windows.Forms.FolderBrowserDialog set_logfie_output;
+		private System.Windows.Forms.ComboBox term_list;
+		private System.Windows.Forms.Label term_label;
 	}
 }
 
