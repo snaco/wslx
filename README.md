@@ -21,7 +21,7 @@ Currently Supported Window Managers:
 Prerequisite steps before using WSLX and WSLX Setup:
 0. Install a WSL Disrto from the Windows store.
 1. Install either X410 or VcXsrv
-<2. Install and set up i3 on your WSL (now can be automated by WSLXSetup on select distros)>
+2. Install and set up i3 on your WSL (now can be automated by WSLXSetup on select distros)
 3. Put WSLX.exe, WSLXSetup.exe, and Defaults folder in a folder together somewhere on your computer.
 
 First time use of WSLX with no existing config for window manager
