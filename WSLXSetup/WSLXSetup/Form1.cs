@@ -22,6 +22,10 @@ namespace WSLXSetup
 		}
 		private void generate_config(object sender, EventArgs e)
 		{
+			GenerateConfig();	
+		}
+		private void GenerateConfig()
+		{
 			//make sure there are selections for each part of config
 			//and keep track of which ones arent selected so they display in the error message
 			if (wsl_distro.SelectedIndex == -1 || xserver_client.SelectedIndex == -1 || window_manager.SelectedIndex == -1)
@@ -37,7 +41,7 @@ namespace WSLXSetup
 				string xserver = xserver_client.Items[xserver_client.SelectedIndex].ToString();
 				string distro = GetLinuxDistro();
 				string win_mgr = GetWindowManager();
-				string logfile_path = "logfile_path=\""+log_path_tbox.Text+"\\logfile.txt\"";
+				string logfile_path = "logfile_path=\"" + log_path_tbox.Text + "\\logfile.txt\"";
 				switch (xserver)
 				{
 					case "VcXsrv":
@@ -162,6 +166,7 @@ namespace WSLXSetup
 					p.WaitForExit();
 				}
 			}
+			GenerateConfig();
 		}
 		//Returns the window manager in script/config ready format
 		private string GetWindowManager()
