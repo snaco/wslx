@@ -85,7 +85,7 @@ namespace WSLXSetup
 				PowerShell ps = PowerShell.Create();
 				string distro = GetLinuxDistro();
 				string win_mgr = GetWindowManager();
-				if (distro.Equals("ubuntu1604.exe") || distro.Equals("ubuntu1804.exe") || distro.Equals("debian.exe") || distro.Equals("kali.exe"))
+				if (distro.Equals("ubuntu.exe") || distro.Equals("ubuntu1604.exe") || distro.Equals("ubuntu1804.exe") || distro.Equals("debian.exe") || distro.Equals("kali.exe"))
 				{
 					Process p = new Process();
 					p.StartInfo.FileName = "PowerShell.exe";
@@ -188,6 +188,8 @@ namespace WSLXSetup
 				{
 					case "Ubuntu 16.04":
 						return "ubuntu1604.exe";
+                    case "Ubuntu":
+                        return "ubuntu.exe";
 					case "Ubuntu 18.04":
 						return "ubuntu1804.exe";
 					case "Debian GNU/Linux":
@@ -236,6 +238,12 @@ namespace WSLXSetup
 					window_manager.Items.Add("i3");
 					window_manager.Items.Add("xfce");
 					window_manager.Items.Add("MATE");
+					break;
+                case "ubuntu.exe":
+					term_list.Items.Add("urxvt");
+					term_list.Items.Add("terminator");
+					window_manager.Items.Add("i3");
+					window_manager.Items.Add("xfce");
 					break;
 				case "ubuntu1604.exe":
 					term_list.Items.Add("urxvt");
