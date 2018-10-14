@@ -99,11 +99,11 @@ namespace WSLXSetup
 									p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
 										"'run sudo apt update " +
 										"&& sudo apt upgrade -y " +
-										"&& sudo apt-get install -y " + win_mgr + " " +
-										"&& sudo apt-get install -y feh " +
-										"&& cat Defaults/i3Config > ~/.config/i3/config " +
-										"&& mkdir ~/Pictures " +
-										"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg" +
+										"&& sudo apt-get install -y " + win_mgr +
+										//"&& sudo apt-get install -y feh " +
+										//"&& cat Defaults/i3Config > ~/.config/i3/config " +
+										//"&& mkdir ~/Pictures " +
+										//"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg" +
 										"'\"";
 									break;
 								case "terminator":
@@ -111,13 +111,13 @@ namespace WSLXSetup
 										"'run sudo apt update " +
 										"&& sudo apt upgrade -y " +
 										"&& sudo apt-get install -y " + win_mgr + " " +
-										"&& sudo apt-get install -y feh " +
-										"&& cat Defaults/i3Config > ~/.config/i3/config " +
-										"&& mkdir ~/Pictures " +
-										"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
+										//"&& sudo apt-get install -y feh " +
+										//"&& cat Defaults/i3Config > ~/.config/i3/config " +
+										//"&& mkdir ~/Pictures " +
+										//"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
 										"&& sudo apt-get install -y terminator " +
-										"&& mkdir ~/.config/terminator " +
-										"&& cat Defaults/terminatorConfig > ~/.config/terminator/config" +
+										"&& mkdir ~/.config/terminator" +
+										//"&& cat Defaults/terminatorConfig > ~/.config/terminator/config" +
 										"'\"";
 									break;
 							}
@@ -126,40 +126,21 @@ namespace WSLXSetup
 							p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
 										"'run sudo apt update " +
 										"&& sudo apt upgrade -y " +
-										"&& sudo apt-get install -y xfce4 " +
-										"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
-										"&& xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set ~/Plane.jpg" +
+										"&& sudo apt-get install -y xfce4" +
+										//"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
+										//"&& xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set ~/Plane.jpg" +
+										"'\"";
+							break;
+						case "mate-session":
+							p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
+										"'run sudo apt update " +
+										"&& sudo apt upgrade -y " +
+										"&& sudo apt-get install -y mate" +
+										//"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
+										//"&& xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set ~/Plane.jpg" +
 										"'\"";
 							break;
 						default:
-							break;
-					}
-					switch (term)
-					{
-						case "urxvt":
-							p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
-								"'run sudo apt update " +
-								"&& sudo apt upgrade " +
-								"&& sudo apt-get install -y " + win_mgr + " " +
-								"&& sudo apt-get install -y feh " +
-								"&& cat Defaults/i3Config > ~/.config/i3/config " +
-								"&& mkdir ~/Pictures " +
-								"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg" +
-								"'\"";
-							break;
-						case "terminator":
-							p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
-								"'run sudo apt update " +
-								"&& sudo apt upgrade " +
-								"&& sudo apt-get install -y " + win_mgr + " " +
-								"&& sudo apt-get install -y feh " +
-								"&& cat Defaults/i3Config > ~/.config/i3/config " +
-								"&& mkdir ~/Pictures " +
-								"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
-								"&& sudo apt-get install -y terminator " +
-								"&& mkdir ~/.config/terminator " +
-								"&& cat Defaults/terminatorConfig > ~/.config/terminator/config" +
-								"'\"";
 							break;
 					}
 					p.Start();
@@ -185,6 +166,8 @@ namespace WSLXSetup
 						return "i3";
 					case "xfce":
 						return "xfce4-session";
+					case "MATE":
+						return "mate-session";
 					default:
 						return "";
 				}
@@ -252,22 +235,26 @@ namespace WSLXSetup
 					term_list.Items.Add("terminator");
 					window_manager.Items.Add("i3");
 					window_manager.Items.Add("xfce");
+					window_manager.Items.Add("MATE");
 					break;
 				case "ubuntu1604.exe":
 					term_list.Items.Add("urxvt");
 					term_list.Items.Add("terminator");
 					window_manager.Items.Add("i3");
 					window_manager.Items.Add("xfce");
+					window_manager.Items.Add("MATE");
 					break;
 				case "debian.exe":
 					//no terminator support due to a dbus issue.
 					term_list.Items.Add("urxvt");
 					window_manager.Items.Add("xfce");
+					window_manager.Items.Add("MATE");
 					break;
 				case "kali.exe":
 					term_list.Items.Add("urxvt");
 					term_list.Items.Add("terminator");
 					window_manager.Items.Add("xfce");
+					window_manager.Items.Add("MATE");
 					break;
 
 			}
