@@ -85,50 +85,25 @@ namespace WSLXSetup
 				PowerShell ps = PowerShell.Create();
 				string distro = GetLinuxDistro();
 				string win_mgr = GetWindowManager();
+				Process p = new Process();
+				p.StartInfo.FileName = "PowerShell.exe";
 				if (distro.Equals("ubuntu.exe") || distro.Equals("ubuntu1604.exe") || distro.Equals("ubuntu1804.exe") || distro.Equals("debian.exe") || distro.Equals("kali.exe"))
 				{
-					Process p = new Process();
-					p.StartInfo.FileName = "PowerShell.exe";
 					string term = GetTerminalEmulator();
-					switch (GetWindowManager())
+					switch (win_mgr)
 					{
 						case "i3":
-							switch (term)
-							{
-								case "urxvt":
-									p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
+							p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
 										"'run sudo apt update " +
 										"&& sudo apt upgrade -y " +
 										"&& sudo apt-get install -y " + win_mgr +
-										//"&& sudo apt-get install -y feh " +
-										//"&& cat Defaults/i3Config > ~/.config/i3/config " +
-										//"&& mkdir ~/Pictures " +
-										//"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg" +
 										"'\"";
-									break;
-								case "terminator":
-									p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
-										"'run sudo apt update " +
-										"&& sudo apt upgrade -y " +
-										"&& sudo apt-get install -y " + win_mgr + " " +
-										//"&& sudo apt-get install -y feh " +
-										//"&& cat Defaults/i3Config > ~/.config/i3/config " +
-										//"&& mkdir ~/Pictures " +
-										//"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
-										"&& sudo apt-get install -y terminator " +
-										"&& mkdir ~/.config/terminator" +
-										//"&& cat Defaults/terminatorConfig > ~/.config/terminator/config" +
-										"'\"";
-									break;
-							}
 							break;
 						case "xfce4-session":
 							p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
 										"'run sudo apt update " +
 										"&& sudo apt upgrade -y " +
 										"&& sudo apt-get install -y xfce4" +
-										//"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
-										//"&& xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set ~/Plane.jpg" +
 										"'\"";
 							break;
 						case "mate-session":
@@ -136,18 +111,32 @@ namespace WSLXSetup
 										"'run sudo apt update " +
 										"&& sudo apt upgrade -y " +
 										"&& sudo apt-get install -y mate" +
-										//"&& cp Defaults/Plane.jpg ~/Pictures/Plane.jpg " +
-										//"&& xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set ~/Plane.jpg" +
 										"'\"";
 							break;
 						default:
 							break;
 					}
-					p.Start();
-					p.WaitForExit();
+
 				}
+				if (distro.Equals("openSUSE-42.exe"))
+				{
+					switch (win_mgr)
+					{
+						case "xfce4-session":
+							p.StartInfo.Arguments = "-Command \"Start-Process " + distro + " -ArgumentList " +
+								"'run " +
+								"sudo zypper refresh " +
+								"&& sudo zypper update " +
+								"&& sudo zypper -n in patterns-openSUSE-xfce" +
+								"'\"";
+							break;
+					}
+					
+				}
+				p.Start();
+				p.WaitForExit();
+				GenerateConfig();
 			}
-			GenerateConfig();
 		}
 		//Returns the window manager in script/config ready format
 		private string GetWindowManager()
@@ -186,10 +175,10 @@ namespace WSLXSetup
 				string distro = wsl_distro.Items[wsl_distro.SelectedIndex].ToString();
 				switch (distro)
 				{
+					case "Ubuntu":
+						return "ubuntu.exe";
 					case "Ubuntu 16.04":
 						return "ubuntu1604.exe";
-                    case "Ubuntu":
-                        return "ubuntu.exe";
 					case "Ubuntu 18.04":
 						return "ubuntu1804.exe";
 					case "Debian GNU/Linux":
@@ -227,46 +216,50 @@ namespace WSLXSetup
 		//Update supported terminal emulators based on distro selection
 		private void wsl_distro_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			term_list.Items.Clear();
+			//term_list.Items.Clear();
 			window_manager.Items.Clear();
 			string distro = GetLinuxDistro();
 			switch (distro)
 			{
 				case "ubuntu1804.exe":
-					term_list.Items.Add("urxvt");
-					term_list.Items.Add("terminator");
+					//term_list.Items.Add("urxvt");
+					//term_list.Items.Add("terminator");
 					window_manager.Items.Add("i3");
 					window_manager.Items.Add("xfce");
 					window_manager.Items.Add("MATE");
 					break;
                 case "ubuntu.exe":
-					term_list.Items.Add("urxvt");
-					term_list.Items.Add("terminator");
+					//term_list.Items.Add("urxvt");
+					//term_list.Items.Add("terminator");
 					window_manager.Items.Add("i3");
 					window_manager.Items.Add("xfce");
 					break;
 				case "ubuntu1604.exe":
-					term_list.Items.Add("urxvt");
-					term_list.Items.Add("terminator");
+					//term_list.Items.Add("urxvt");
+					//term_list.Items.Add("terminator");
 					window_manager.Items.Add("i3");
 					window_manager.Items.Add("xfce");
 					window_manager.Items.Add("MATE");
 					break;
 				case "debian.exe":
 					//no terminator support due to a dbus issue.
-					term_list.Items.Add("urxvt");
+					//term_list.Items.Add("urxvt");
 					window_manager.Items.Add("xfce");
 					window_manager.Items.Add("MATE");
 					break;
 				case "kali.exe":
-					term_list.Items.Add("urxvt");
-					term_list.Items.Add("terminator");
+					//term_list.Items.Add("urxvt");
+					//term_list.Items.Add("terminator");
 					window_manager.Items.Add("xfce");
 					window_manager.Items.Add("MATE");
 					break;
+				case "openSUSE-42.exe":
+					window_manager.Items.Add("xfce");
+					//window_manager.Items.Add("MATE");
+					break;
 
 			}
-			term_list.SelectedIndex = 0;
+			//term_list.SelectedIndex = 0;
 		}
 		//convert windows path to linux path
 		public string TranslatePathToLinux(string path)
@@ -288,12 +281,12 @@ namespace WSLXSetup
 				case "i3":
 					break;
 				case "xfce4-session":
-					term_list.Items.Clear();
-					term_list.Items.Add("default");
-					term_list.SelectedIndex = 0;
+					//term_list.Items.Clear();
+					//term_list.Items.Add("default");
+					//term_list.SelectedIndex = 0;
 					break;
 			}
-			term_list.SelectedIndex = 0;
+			//term_list.SelectedIndex = 0;
 		}
 	}
 }
