@@ -1,6 +1,8 @@
 # wslx
 A launcher application for running wsl with an xserver.
 
+[How my WSLX looks](https://i.imgur.com/5ciceKp.png)
+
 Currently Supported and Tested Distros:
 * Ubuntu 18.04
 * Ubuntu 16.04
