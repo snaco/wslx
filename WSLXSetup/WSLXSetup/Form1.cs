@@ -2,8 +2,6 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Management.Automation;
-using System.Collections;
-using System.Collections.ObjectModel;
 
 namespace WSLXSetup
 {
@@ -131,7 +129,6 @@ namespace WSLXSetup
 								"'\"";
 							break;
 					}
-					
 				}
 				p.Start();
 				p.WaitForExit();
@@ -286,7 +283,6 @@ namespace WSLXSetup
 					//term_list.SelectedIndex = 0;
 					break;
 			}
-			//term_list.SelectedIndex = 0;
 		}
 	}
 }
