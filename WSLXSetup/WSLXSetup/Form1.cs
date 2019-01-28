@@ -194,7 +194,8 @@ namespace WSLXSetup
 		//get the terminal emulator selection, this is just to clean up code
 		private string GetTerminalEmulator()
 		{
-				return term_list.Items[term_list.SelectedIndex].ToString();
+			return "boop";
+				//return term_list.Items[term_list.SelectedIndex].ToString();
 		}
 		//Set the folder for the log file
 		private void set_folder_btn_Click(object sender, EventArgs e)

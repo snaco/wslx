@@ -72,8 +72,8 @@ namespace WSLX
 			string new_path = "/mnt/c/";
 			path = path.Replace('\\', '/');
 			path = path.Replace(" ", "\\ ");
-			path = path.Replace('"', '\0');
-			new_path += path.Substring(4);
+			path = path.Replace("\"", "");
+			new_path += path.Substring(3);
 			return new_path;
 		}
 		//Reads the config file stored in the same location as the .exe and stores the values
